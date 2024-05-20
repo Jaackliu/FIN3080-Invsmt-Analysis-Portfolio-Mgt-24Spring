@@ -1,0 +1,87 @@
+
+\section*{Problem 1}
+
+\noindent
+\textbf{Data Collection and Clarification}
+
+The data are all downloaded from CSMAR as required by the problem.
+
+Some necessary clarifications:
+
+
+1. Monthly return without dividend reinvested (eliminate the such influence of dividend) used.
+
+2. Return on Assets - B and Return on Equity - B are used. B here means that \textit{average} balance of total assets / equity are used in the denominator. This may help cope with extreme values.
+
+3. Net Assets per Share is used to present book value in P/B ratios.
+
+
+4. Noted that there are many types of Earning per share. Earning per share - TTM is used to present the statistics as it includes twelve months' data, which is less influenced by extremes and corresponding with real market better. In addition, Earning per share - 1 will also be used to show the robotness of conclusion.
+\\
+
+\noindent
+\begin{Question} 
+
+
+\noindent
+\textbf{Data Manipulation Process}
+
+\textit{Data cleaning.} Unnecessary data such as ``statement type" (parent statements are omitted) and ``firm name" are deleted using $drop$ function. 
+
+
+\textit{Date conversion and merging.} Converts the date columns in both dataframes to a period type representing months. In EPS\_bookValue, it additionally adjusts the date to the start of the next month to align with the reporting periods. Merges on date columns. Filling missing values by forward filling within each stock\_code. 
+
+
+\textit{P/E P/B ratios.} Calculates the P/E and P/B ratios using the closing\_price, earnings\_per\_share, and book\_value\_per\_share columns. These ratios are fundamental financial metrics used to assess the valuation of stocks.
+
+
+\textit{R\&D/Asset ratio.} Converts the date columns in the R\&D and asset\_liability dataframes to a quarterly period type. Merging as usual. Calculates the ratio of R\&D expense to total assets for each entry in the merged dataframe.
+
+
+\textit{Firm ages Calculation.} Converts the quarter end dates to string, applies a function to transform quarter indicators to the last day of the respective quarter, and calculates the firm age by comparing this date to the establishment date. The age is expressed in years.
+
+
+Results shown in the file.\\
+
+
+\end{Question}
+
+\noindent
+\begin{Question} 
+
+
+\textit{Summary Statistics.} By using $.describe()$ function in $pandas$, we can get the data required easily form merged dataframes. All the numbers are round to two decimals. Firm age in year.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Main Board}
+    \vspace{0.4cm}
+    \csvautotabular{data/summary_df_mainBoard.csv}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{GEM Board}
+    \vspace{0.4cm}
+    \csvautotabular{data/summary_df_GEM.csv}
+\end{table}
+
+\textit{Findings.} This statistics reveals that:
+
+
+1. the total number of observations is greater in the main board compared to the GEM board. 
+
+
+2. When looking at monthly returns, both boards average similarly, yet the GEM board displays significantly higher maximum values and volatility, indicating a greater risk-return ratio. 
+
+
+3. In terms of PE ratios, the GEM board generally records higher (and more negative) figures than the main board. Similarly, for PB ratios, the GEM board exhibits higher (and more negative) statistics, although its maximum and standard deviation are lower than those of the main board. 
+
+
+4. Regarding ROA and ROE metrics, aside from outlier values, both boards share comparable statistics. The ratio of R\&D expense to total assets is notably higher on the GEM board. 
+
+
+5. In the case of quarterly firm ages, indicating the duration firms have been in operation, the main board surpasses the GEM board across all metrics. Summarizing, this comparison indicates that firms on the main board are generally more stable, whereas those on the GEM board present higher risks and returns.
+
+
+\end{Question}

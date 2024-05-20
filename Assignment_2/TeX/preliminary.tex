@@ -1,0 +1,24 @@
+\noindent
+\section*{Preliminary Data Processing}
+
+\noindent
+\textbf{Data Collection}
+
+Because all the files required to be downloaded from CSMAR in the homework document have clearly specified the download methods, form names, and project contents, etc. Therefore, the data used in my code is completely in accordance with the assignment requirements.
+
+
+The time range for all data is from September 2009 to October 2023, to avoid data gaps caused by factors such as the ``last-month" requirement specified in the questions.
+
+
+\noindent
+\textbf{Data Manipulation}
+
+\textit{Data cleaning.} Unnecessary data such as ``statement type" (parent statements are omitted as required) and ``firm name" are deleted using $drop$ function. 
+
+
+\textit{Date conversion.} Dates in all involved dataframes are converted to a monthly period format, with additional adjustments for NAPS \& ROE data by adding one month, to make it function as the closing data at the end of quarters. 
+
+\textit{Date merging.} The merging process links data on stock codes and the adjusted dates, using a left join approach. Finally, missing value is forward-filled for the `ROE' and `NAPS' columns within each stock code group, ensuring that each stock has continuous data for these metrics.
+
+
+\textit{Extreme data removal.} The code calculates the P/B ratio, then filters out records with extreme P/B ratios, specifically those below the 5th percentile or above the 95th percentile as required.

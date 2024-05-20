@@ -1,0 +1,79 @@
+
+\section*{Problem 2}
+
+\noindent
+\textbf{Data Collection}
+
+The data are all downloaded from CSMAR as required, namely Returns Without Cash Dividend Reinvested from 2017-01 to 2022-53 (YYYY-WW).
+
+As required, the time period should be divided to three parts. In this question, 2 years will be one regression period, namely 2017-2018 (first regression), 2019-2020 (second regression), 2021-2022 (third regression).
+
+\\
+
+\noindent
+\textbf{Steps}
+
+(a) \textit{Data Manipulation.} We can simply use $.concat()$ to connect the two .csv files downloaded. Besides, I take out market type 1, 4, 64, which are the codes for A-share mainboard as required.
+
+(b) \textit{Market Return.} Use $.groupby(`week')$ and $.mean()$ to calculate the market return by covering all stock returns.
+
+(c) \textit{Data Manipulation.} Just load the data, and align the `week' data type and structure using some string methods.
+
+(d) \textit{Process.} 
+
+\noindent
+\textbf{Replicate Table 2 from the referenced paper.}
+
+Firstly, regress every stock return on the market return, so we can get the beta in single factor models in the first time period. Then, after sorting and ranking beta, we divide the stocks into 10 groups. We construct 10 portfolios by combining all the stocks in each group. Then we calculate the difference among return and risk-free rate. Finally we can get regression result in Table 2 using the second period data.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{(Table 2 in paper)} Time series regression results of the second period of portfolio}
+    \vspace{0.4cm}
+    \csvautotabular{data/Table_2_result.csv}
+\end{table}
+
+Note: all the data are round to five decimals.
+
+\noindent
+\textbf{Results.} By comparing with the paper given, we find the results are a little different:
+
+1. The Beta values across all portfolios are fairly consistent, typically  around 1. Moreover, the p values are consistently low, showing the significant impact of market returns on stock returns. This aligns with the findings of the referenced paper.
+
+2. Initially, the R-squared values are consistently high, indicating that our regression model effectively captures the variance in stock returns. Furthermore, there's no notable increase in R-squared values with higher Beta values, implying that factors beyond systematic risk influence stock returns. This aligns with the referenced paper.
+
+3. However, the alpha values we computed are notably small, approaching zero. Based on the t value and p value, we lack sufficient evidence to reject the null hypothesis that alpha equals zero. This does NOT align with the referenced paper.
+
+
+\noindent
+\textbf{Replicate Table 3 from the referenced paper.}
+
+I firstly take out the third period data from 2021-2022. Then calculate the average excess return, and merge corresponding beta to the dataframe. By repeating the regression in the paper, we can get:
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{(Table 3 in paper)} Cross-sectional regression results of the third period of portfolio}
+    \vspace{0.4cm}
+    \csvautotabular{data/Table_3_result.csv}
+\end{table}
+
+Note: all the data are round to five decimals.
+
+
+\noindent
+\textbf{Results.} Based on the table above, the following conclusions can be drawn:
+
+1. The R-squared value stands at only 0.45885, similar to the explaining power in the paper.
+
+2. The value of gamma1 is 0.00266, and t-statistics is greater than 2, p-value is 0.031 (smaller than 0.05) as well, showing statistically significant positive correlation between returns and systematic risk. This suggests that returns tend to rise with increasing systematic risk, consistent with the principles of the CAPM model, and aligns with the conclusions drawn in the reference paper.
+
+3. However, the alpha values obtained are notably small, approaching zero. The t-value is rather close to 0 (greater than -2), p-value is 0.324, so we fail to find sufficient evidence to reject the null hypothesis that alpha equals zero. This contradicts the assertions in the reference paper. 
+
+Possible reason:
+Chinese stock market has undergone rapid development in these years after the paper published, becoming substantially more efficient over time. The establishment and enhancement of the multi-level market system, alongside reforms in the new stock issuance system, have contributed to the maturation of China's securities market. Consequently, the equilibrium relationship between risk and return in securities investment is increasingly manifested, leading to a diminishing impact of non-systematic risks on pricing. As a result, alpha is not significantly different from zero.
+
+
+
+
+
+
